@@ -1,0 +1,56 @@
+<h2>User Info</h2>
+
+<div class="card">
+  <div class="card-header">
+      <h3><%= @user.name %></h3>
+   </div>
+<ul class="list-group">
+
+  <li class="list-group-item">
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </li>
+  <%=if @manager_name =="" do %>
+    <li class="list-group-item"><strong>You have not been assigned with a manager yet</strong> </li>
+  <% else %>
+  <li class="list-group-item"><strong>Your Manager is </strong>
+  <%= @manager_name %></li>
+  <% end %>
+    <li class="list-group-item"><strong>User Type:</strong>
+    <%= if @user.manager_field == true do %>
+    <strong>Manager</strong> </li>
+    <div class="row" style="margin-top:20px">
+      <div class="col-sm-6">
+    <h6>Add your Reportees(Please enter their Employee id) </h6>
+    <%= form_tag("/addReportees", method: :post) do %>
+    <div class="form-group">
+      <input type="number" name="user_id" required/>
+      <input type="hidden" name="manager_id" value = <%= @user.id %>  />  </div>
+      <!-- passwords come later -->
+      <div class="form-group">
+        <button class="btn btn-primary">Add Reportee</button>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-sm-6">
+<h4> Your immediate reportees </h4>
+<ul class="list-group">
+<%= for user <- @reportees do %>
+  <li class="list-group-item">
+    <%= user.name %>
+  </li>
+<% end %>
+<ul>
+  </div>
+      </div>
+    <% else %>
+  Employee</li>
+</ul>
+</div>
+    <% end %>
+    <div style="margin-top:30px">
+    <span><%= link "Edit", class: "btn btn-primary", to: user_path(@conn, :edit, @user) %></span>
+    <span><%= link "Back", class: "btn btn-danger",to: user_path(@conn, :index) %></span>
+    </div>
+
+</div>
